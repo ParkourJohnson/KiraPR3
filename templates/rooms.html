@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список номеров</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Гостиница Пример</div>
+        <nav>
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/rooms">Номера</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="room-list">
+        <h1>Наши номера</h1>
+        <div class="rooms-container">
+            {% for room in rooms %}
+            <div class="room">
+                <img src="{{ url_for('static', filename=room.image) }}" alt="{{ room.room_name }}">
+                <h2>{{ room.room_name }}</h2>
+                <p>{{ room.description }}</p>
+                <p>Цена: {{ room.price }} руб/ночь</p>
+                <a href="#" class="btn">Забронировать</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>Контакты: +7 (999) 123-45-67 | Email: info@hotel.com</p>
+        <p>&copy; 2024 Гостиница Пример. Все права защищены.</p>
+    </footer>
+</body>
+</html>
