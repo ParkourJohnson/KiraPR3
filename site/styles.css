@@ -35,7 +35,7 @@ nav ul li a {
     text-align: center;
     padding: 100px 20px;
     background: url('hotel-bg.jpg') no-repeat center center/cover;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .hero h1 {
