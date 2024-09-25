@@ -1,0 +1,104 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: url('hotel-bg.jpg') no-repeat center center/cover;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 48px;
+}
+
+.hero p {
+    font-size: 24px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f04a4a;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.gallery {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.photos {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.photos img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.features {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+}
+
+.features h2 {
+    text-align: center;
+}
+
+.feature {
+    margin-bottom: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+.hero-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.hero-logo img {
+    width: 200px; /* Ширина логотипа */
+    height: auto;
+}
