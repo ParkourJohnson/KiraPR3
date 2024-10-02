@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-form">
+            <h1>Вход</h1>
+            <form method="POST" action="{{ url_for('login') }}">
+                <label for="username">Логин</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Войти</button>
+            </form>
+            <a href="{{ url_for('register') }}">Еще нет аккаунта? Зарегистрироваться</a>
+        </div>
+    </div>
+</body>
+</html>
