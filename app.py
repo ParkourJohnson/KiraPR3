@@ -25,7 +25,7 @@ def index():
     return render_template('index.html')
 
 # Маршрут для страницы с номерами
-@app.route('/templates/rooms.html')
+@app.route('/rooms')
 def rooms():
     rooms_list = Room.query.all()  # Получаем все номера из базы данных
     return render_template('rooms.html', rooms=rooms_list)
