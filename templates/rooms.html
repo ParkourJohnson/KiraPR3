@@ -31,13 +31,20 @@
         <h1>Наши номера</h1>
         <div class="rooms-container">
             {% for room in rooms %}
-            <div class="room">
-                <img src="{{ url_for('static', filename=room.image) }}" alt="{{ room.room_name }}">
-                <h2>{{ room.room_name }}</h2>
-                <p>{{ room.description }}</p>
-                <p>Цена: {{ room.price }} руб/ночь</p>
-                <a href="#" class="btn">Забронировать</a>
-            </div>
+                <div class="room">
+                    <h2>{{ room.name }}</h2>
+                    <p>{{ room.description }}</p>
+                    <p>Цена: {{ room.price }} ₽</p>
+                    <img src="{{ url_for('static', filename=room.image) }}" alt="{{ room.name }}">
+        
+                    {% if room.is_booked %}
+                        <button disabled>Забронирован</button>
+                    {% else %}
+                        <form action="{{ url_for('book_room', room_id=room.id) }}" method="post">
+                        <button type="submit">Забронировать</button>
+                        </form>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
     </section>

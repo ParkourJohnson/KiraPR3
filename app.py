@@ -5,6 +5,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import os
 from flask_login import UserMixin
+from datetime import datetime
 
 # Создаем экземпляр Flask-приложения
 app = Flask(__name__)
@@ -44,6 +45,15 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+class Booking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)  # Используй правильное имя таблицы
+    booking_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref='bookings', lazy=True)
+    room = db.relationship('Room', backref='bookings', lazy=True)
 
 # Маршрут для главной страницы
 @app.route('/')
@@ -57,6 +67,25 @@ def rooms():
     rooms_list = Room.query.all()
     return render_template('rooms.html', rooms=rooms_list)
 
+@app.route('/book/<int:room_id>', methods=['POST'])
+@login_required
+def book_room(room_id):
+    room = Room.query.get_or_404(room_id)
+    
+    # Проверяем, если номер уже забронирован
+    if room.is_booked:
+        flash("Этот номер уже забронирован!", "error")
+        return redirect(url_for('rooms'))
+
+    # Если номер свободен, создаем бронирование
+    room.is_booked = True
+    booking = Booking(user_id=current_user.id, room_id=room.id)
+    
+    db.session.add(booking)
+    db.session.commit()
+    
+    flash(f"Номер {room.id} успешно забронирован!", "success")
+    return redirect(url_for('rooms'))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -113,3 +142,6 @@ def logout():
 # Запуск приложения
 if __name__ == '__main__':
     app.run(debug=True)
+
+with app.app_context():
+    db.create_all()
