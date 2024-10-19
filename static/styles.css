@@ -184,3 +184,9 @@ footer {
 .auth-form a:hover {
     text-decoration: underline;
 }
+
+.logo a {
+    color: white; /* Устанавливает цвет текста на белый */
+    text-decoration: none; /* Убирает подчеркивание */
+    font-weight: bold; /* Делаем текст жирным */
+}

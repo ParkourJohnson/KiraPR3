@@ -31,6 +31,7 @@ class Room(db.Model):
     description = db.Column(db.Text, nullable=False)  # Описание номера
     price = db.Column(db.Float, nullable=False)  # Цена за ночь
     image = db.Column(db.String(255), nullable=False)  # Путь к изображению номера
+    is_booked = db.Column(db.Boolean, default=False) # Статус бронирования номера
 
 # Наследуем класс User от UserMixin, который содержит нужные методы
 class User(db.Model, UserMixin):
@@ -96,6 +97,7 @@ def login():
             return redirect(url_for('login'))
 
         login_user(user)
+        flash("Авторизация прошла успешно!")
         return redirect(url_for('rooms'))
 
     return render_template('login.html')
@@ -105,6 +107,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash("Вы вышли из аккаунта.")
     return redirect(url_for('index'))
 
 # Запуск приложения

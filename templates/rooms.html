@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <header>
-        <div class="logo">Гостиница</div>
+        <div class="logo"><a href="/">Гостиница</a></div>
         <nav>
             <ul>
                 <li><a href="/">Главная</a></li>
