@@ -1,8 +1,11 @@
 import sqlite3
 
+delquery = '''
+DELETE FROM User
+'''
+
 query = '''
-UPDATE Room
-SET is_booked = false;
+
 '''
 
 # Создание или подключение к базе данных
@@ -11,12 +14,8 @@ conn = sqlite3.connect('instance/hotel.db')  # Путь к файлу базы �
 # Создание курсора для выполнения SQL-запросов
 cursor = conn.cursor()
 
-cursor.execute(query)
-
-conn.commit()
-
 # Пример выборки данных
-cursor.execute("SELECT * FROM Room")
+cursor.execute("SELECT * FROM User")
 rows = cursor.fetchall()
 for row in rows:
     print(row)
