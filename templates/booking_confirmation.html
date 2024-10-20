@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение бронирования</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/booking.css">
+</head>
+<body class="confirmation-page">
+    <h1 class="confirmation-title">Подтверждение бронирования</h1>
+    <p class="confirmation-info">Вы забронировали номер: {{ room.name }}</p>
+    <p class="confirmation-info">С даты: {{ start_date }} по дату: {{ end_date }}</p>
+    <p class="confirmation-total">Общая стоимость: {{ total_cost }} ₽</p>
+
+    <form action="{{ url_for('index') }}" class="confirmation-form">
+        <button type="submit" class="confirmation-button">Подтвердить бронирование</button>
+    </form>
+</body>
+</html>

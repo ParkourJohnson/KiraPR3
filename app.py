@@ -31,7 +31,7 @@ app.config['MAIL_SERVER'] = 'smtp.mail.ru'  # SMTP-сервер для bk.ru
 app.config['MAIL_PORT'] = 465  # Порт для защищенного соединения SSL
 app.config['MAIL_USE_SSL'] = True  # Использование SSL
 app.config['MAIL_USERNAME'] = 'petrovich-bomzh45@bk.ru'  # Ваша почта
-app.config['MAIL_PASSWORD'] = '8tPW0x11r6N5mSvgaWEF'  # Пароль от почты
+app.config['MAIL_PASSWORD'] = 'L9BN2zVrzYyCPFCf15gK'  # Пароль от почты
 app.config['MAIL_DEFAULT_SENDER'] = 'petrovich-bomzh45@bk.ru'  # От кого отправляются письма
 mail = Mail(app)
 
@@ -66,7 +66,8 @@ class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)  # Используй правильное имя таблицы
-    booking_date = db.Column(db.DateTime, default=datetime.utcnow)
+    start_date = db.Column(db.DateTime, nullable=False)  # Дата начала бронирования
+    end_date = db.Column(db.DateTime, nullable=False)    # Дата конца бронирования
 
     user = db.relationship('User', backref='bookings', lazy=True)
     room = db.relationship('Room', backref='bookings', lazy=True)
@@ -83,25 +84,36 @@ def rooms():
     rooms_list = Room.query.all()
     return render_template('rooms.html', rooms=rooms_list)
 
-@app.route('/book/<int:room_id>', methods=['POST'])
+@app.route('/book_room/<int:room_id>', methods=['GET', 'POST'])
 @login_required
 def book_room(room_id):
     room = Room.query.get_or_404(room_id)
     
-    # Проверяем, если номер уже забронирован
-    if room.is_booked:
-        flash("Этот номер уже забронирован!", "error")
-        return redirect(url_for('rooms'))
+    if request.method == 'POST':
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        
+        if not start_date or not end_date:
+            flash("Пожалуйста, выберите даты.", "error")
+            return redirect(url_for('book_room', room_id=room_id))
 
-    # Если номер свободен, создаем бронирование
-    room.is_booked = True
-    booking = Booking(user_id=current_user.id, room_id=room.id)
-    
-    db.session.add(booking)
-    db.session.commit()
-    
-    flash(f"Номер {room.id} успешно забронирован!", "success")
-    return redirect(url_for('rooms'))
+        # Здесь можно добавить проверку на доступность номеров в выбранные даты
+
+        # Считаем стоимость
+        start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+        end_date_obj = datetime.strptime(end_date, '%Y-%m-%d')
+        num_days = (end_date_obj - start_date_obj).days
+
+        if num_days <= 0:
+            flash("Дата окончания должна быть позже даты начала.", "error")
+            return redirect(url_for('book_room', room_id=room_id))
+        
+        total_cost = num_days * room.price
+
+        # Рендерим страницу с итогами
+        return render_template('booking_confirmation.html', room=room, total_cost=total_cost, start_date=start_date, end_date=end_date)
+
+    return render_template('book_room.html', room=room)
 
 @login_manager.user_loader
 def load_user(user_id):

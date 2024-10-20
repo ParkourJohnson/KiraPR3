@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Бронирование номера</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/booking.css"> <!-- Новый файл стилей -->
+</head>
+<body class="booking-page">
+    <h1 class="booking-title">Бронирование номера: {{ room.name }}</h1>
+    <p class="booking-description">{{ room.description }}</p>
+    <p class="booking-price">Цена за ночь: {{ room.price }} ₽</p>
+
+    <form action="{{ url_for('book_room', room_id=room.id) }}" method="post" class="booking-form">
+        <label for="start_date">Дата начала:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        
+        <label for="end_date">Дата окончания:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        
+        <button type="submit" class="booking-button">Подсчитать стоимость</button>
+    </form>
+</body>
+</html>

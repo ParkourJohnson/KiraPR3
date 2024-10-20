@@ -40,7 +40,7 @@
                     {% if room.is_booked %}
                         <button disabled>Забронирован</button>
                     {% else %}
-                        <form action="{{ url_for('book_room', room_id=room.id) }}" method="post">
+                        <form action="{{ url_for('book_room', room_id=room.id) }}">
                         <button type="submit">Забронировать</button>
                         </form>
                     {% endif %}

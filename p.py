@@ -1,7 +1,8 @@
 import sqlite3
 
 delquery = '''
-DELETE FROM User
+UPDATE Room
+SET is_booked = 0;
 '''
 
 query = '''
@@ -15,7 +16,7 @@ conn = sqlite3.connect('instance/hotel.db')  # Путь к файлу базы �
 cursor = conn.cursor()
 
 # Пример выборки данных
-cursor.execute("SELECT * FROM User")
+cursor.execute("SELECT * FROM Room")
 rows = cursor.fetchall()
 for row in rows:
     print(row)
