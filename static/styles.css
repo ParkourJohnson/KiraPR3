@@ -190,3 +190,181 @@ footer {
     text-decoration: none; /* Убирает подчеркивание */
     font-weight: bold; /* Делаем текст жирным */
 }
+
+/* booking.css */
+
+/* Стили для страницы бронирования номера */
+.booking-page {
+    background-color: #f0f8ff; /* Цвет фона для страницы бронирования */
+    padding: 20px;
+}
+
+.booking-title {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.booking-description {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.booking-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d9534f; /* Цвет для цены */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.booking-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.booking-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.booking-form input[type="date"] {
+    width: calc(50% - 10px); /* Устанавливаем ширину на половину */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.booking-form button.booking-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #5cb85c; /* Зеленая кнопка */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.booking-form button.booking-button:hover {
+    background-color: #4cae4c; /* Цвет при наведении */
+}
+
+/* booking.css */
+
+/* Стили для страницы подтверждения бронирования */
+.confirmation-page {
+    background-color: #f7f7f7; /* Светлый фон для страницы подтверждения */
+    padding: 20px;
+    text-align: center;
+}
+
+.confirmation-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.confirmation-info {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.confirmation-total {
+    font-size: 22px;
+    font-weight: bold;
+    color: #d9534f; /* Цвет для суммы */
+    margin-bottom: 30px;
+}
+
+.confirmation-form {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.confirmation-button {
+    padding: 10px 20px;
+    background-color: #5cb85c; /* Зеленая кнопка для подтверждения */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirmation-button:hover {
+    background-color: #4cae4c; /* Цвет при наведении */
+}
+
+/* Стили для личного кабинета */
+.profile-page {
+    padding: 20px;
+    background-color: #f9f9f9; /* Светлый фон для страницы */
+}
+
+.profile-page h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-page h2 {
+    font-size: 28px;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.profile-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Центрирование таблицы */
+}
+
+.profile-page th,
+.profile-page td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.profile-page th {
+    background-color: #f04a4a; /* Цвет фона для заголовков */
+    color: white; /* Цвет текста для заголовков */
+}
+
+.profile-page td {
+    background-color: white; /* Цвет фона для ячеек */
+}
+
+.profile-page p {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+}
+
+.delete-button {
+    padding: 5px 10px;
+    background-color: #d9534f; /* Красный цвет для удаления */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c9302c; /* Цвет при наведении */
+}
