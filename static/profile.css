@@ -1,0 +1,47 @@
+/* Стили для личного кабинета */
+.profile-page {
+    padding: 20px;
+    background-color: #f9f9f9; /* Светлый фон для страницы */
+}
+
+.profile-page h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-page h2 {
+    font-size: 28px;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.profile-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Центрирование таблицы */
+}
+
+.profile-page th,
+.profile-page td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.profile-page th {
+    background-color: #f04a4a; /* Цвет фона для заголовков */
+    color: white; /* Цвет текста для заголовков */
+}
+
+.profile-page td {
+    background-color: white; /* Цвет фона для ячеек */
+}
+
+.profile-page p {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+}

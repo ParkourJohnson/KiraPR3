@@ -27,9 +27,13 @@
             </ul>
         </nav>
         <div class="auth-buttons">
-            <a href="/register" class="btn-small">Регистрация</a>
-            <a href="/login" class="btn-small">Вход</a>
-            <a href="/logout" class="btn-small">Выход</a>
+            {% if is_logged_in %}
+                <a href="/profile" class="btn-small">Личный кабинет</a>
+                <a href="/logout" class="btn-small">Выход</a>
+            {% else %}
+                <a href="/register" class="btn-small">Регистрация</a>
+                <a href="/login" class="btn-small">Вход</a>
+            {% endif %}
         </div>
     </header>
 

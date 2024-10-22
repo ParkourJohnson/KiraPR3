@@ -41,7 +41,7 @@
                         <h3>Забронированные даты:</h3>
                         <ul>
                             {% for start_date, end_date in room_info.booked_dates %}
-                                <li>{{ start_date }} - {{ end_date }}</li>
+                                <li>{{ start_date.strftime('%Y-%m-%d') }} - {{ end_date.strftime('%Y-%m-%d') }}</li>
                             {% endfor %}
                         </ul>
                     {% else %}

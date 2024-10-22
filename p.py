@@ -1,8 +1,7 @@
 import sqlite3
 
 delquery = '''
-UPDATE Room
-SET is_booked = 0;
+ALTER TABLE Booking ADD COLUMN total_amount FLOAT NOT NULL;
 '''
 
 query = '''
@@ -13,10 +12,10 @@ query = '''
 conn = sqlite3.connect('instance/hotel.db')  # Путь к файлу базы данных. Если файла не существует, он будет создан
 
 # Создание курсора для выполнения SQL-запросов
-cursor = conn.cursor()
+cursor = conn.cursor()\
 
 # Пример выборки данных
-cursor.execute("SELECT * FROM User")
+cursor.execute("SELECT * FROM Booking")
 rows = cursor.fetchall()
 for row in rows:
     print(row)

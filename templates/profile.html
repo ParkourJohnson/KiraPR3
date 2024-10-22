@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Основные стили -->
+    <link rel="stylesheet" href="/static/profile.css"> <!-- Стили для личного кабинета -->
+</head>
+<body class="profile-page"> <!-- Добавьте класс profile-page для стилизации -->
+    <h1>Личный кабинет {{ user.username }}</h1>
+    <h2>Ваши бронирования:</h2>
+
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Общая стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.room.room_name }}</td>
+                        <td>{{ booking.start_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ booking.end_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ booking.room.price }} ₽</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У вас нет бронирований.</p>
+    {% endif %}
+</body>
+</html>

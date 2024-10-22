@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import render_template, redirect, url_for, flash, request
@@ -76,7 +76,8 @@ class Booking(db.Model):
 # Маршрут для главной страницы
 @app.route('/')
 def index():
-    return render_template('index.html')
+    is_logged_in = f'{current_user}' in session
+    return render_template('index.html', is_logged_in=is_logged_in)
 
 # Маршрут для страницы с номерами
 @app.route('/rooms')
@@ -241,9 +242,16 @@ def login():
 
         login_user(user)
         flash("Авторизация прошла успешно!")
+        session[f'{current_user}'] = 1
         return redirect(url_for('rooms'))
 
     return render_template('login.html')
+
+@app.route('/profile')
+@login_required
+def profile():
+    bookings = Booking.query.filter_by(user_id=current_user.id).all()
+    return render_template('profile.html', bookings=bookings, user=current_user)
 
 # Маршрут для выхода
 @app.route('/logout')
@@ -251,6 +259,7 @@ def login():
 def logout():
     logout_user()
     flash("Вы вышли из аккаунта.")
+    session.pop(f'{current_user}', None)
     return redirect(url_for('index'))
 
 # Запуск приложения
