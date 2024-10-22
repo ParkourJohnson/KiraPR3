@@ -10,46 +10,39 @@ from flask_mail import Mail, Message
 import random
 from sqlalchemy import or_, and_
 
-# Создаем экземпляр Flask-приложения
 app = Flask(__name__)
 
 secret_key = os.urandom(24)
 app.secret_key = secret_key
 
-# Указываем путь к базе данных (SQLite)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Создаем объект базы данных SQLAlchemy
 db = SQLAlchemy(app)
 
-# Настройка менеджера пользователей
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-app.config['MAIL_SERVER'] = 'smtp.mail.ru'  # SMTP-сервер для bk.ru
-app.config['MAIL_PORT'] = 465  # Порт для защищенного соединения SSL
-app.config['MAIL_USE_SSL'] = True  # Использование SSL
-app.config['MAIL_USERNAME'] = 'petrovich-bomzh45@bk.ru'  # Ваша почта
-app.config['MAIL_PASSWORD'] = 'L9BN2zVrzYyCPFCf15gK'  # Пароль от почты
-app.config['MAIL_DEFAULT_SENDER'] = 'petrovich-bomzh45@bk.ru'  # От кого отправляются письма
+app.config['MAIL_SERVER'] = 'smtp.mail.ru'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'petrovich-bomzh45@bk.ru'
+app.config['MAIL_PASSWORD'] = 'L9BN2zVrzYyCPFCf15gK'
+app.config['MAIL_DEFAULT_SENDER'] = 'petrovich-bomzh45@bk.ru'
 mail = Mail(app)
 
-# Функция для генерации случайного кода
 def generate_confirmation_code():
     return random.randint(100000, 999999)
 
-# Определение модели для номеров (Room)
 class Room(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  # Идентификатор номера
-    room_name = db.Column(db.String(100), nullable=False)  # Название номера
-    description = db.Column(db.Text, nullable=False)  # Описание номера
-    price = db.Column(db.Float, nullable=False)  # Цена за ночь
-    image = db.Column(db.String(255), nullable=False)  # Путь к изображению номера
-    is_booked = db.Column(db.Boolean, default=False) # Статус бронирования номера
+    id = db.Column(db.Integer, primary_key=True)
+    room_name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    is_booked = db.Column(db.Boolean, default=False)
 
-# Наследуем класс User от UserMixin, который содержит нужные методы
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -66,21 +59,19 @@ class User(db.Model, UserMixin):
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)  # Используй правильное имя таблицы
-    start_date = db.Column(db.DateTime, nullable=False)  # Дата начала бронирования
-    end_date = db.Column(db.DateTime, nullable=False)    # Дата конца бронирования
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
 
     user = db.relationship('User', backref='bookings', lazy=True)
     room = db.relationship('Room', backref='bookings', lazy=True)
 
-# Маршрут для главной страницы
 @app.route('/')
 def index():
     is_logged_in = f'{current_user}' in session
     return render_template('index.html', is_logged_in=is_logged_in)
 
-# Маршрут для страницы с номерами
 @app.route('/rooms')
 @login_required
 def rooms():
@@ -138,7 +129,6 @@ def book_room(room_id):
         num_days = (end_date_obj - start_date_obj).days
         total_cost = num_days * room.price
 
-        # Рендерим страницу с итогами
         return render_template('booking_confirmation.html', room=room, total_cost=total_cost, start_date=start_date, end_date=end_date)
 
     return render_template('book_room.html', room=room)
@@ -172,7 +162,6 @@ def confirm_booking(room_id):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Маршрут для регистрации
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -225,8 +214,6 @@ def confirm_registration():
 
     return render_template('confirm_registration.html')
 
-
-# Маршрут для входа
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -268,7 +255,6 @@ def delete_booking(booking_id):
     
         return redirect(url_for('profile'))
 
-# Маршрут для выхода
 @app.route('/logout')
 @login_required
 def logout():
@@ -277,7 +263,6 @@ def logout():
     session.pop(f'{current_user}', None)
     return redirect(url_for('index'))
 
-# Запуск приложения
 if __name__ == '__main__':
     app.run(debug=True)
 
