@@ -26,7 +26,7 @@
                         <td>{{ booking.room.room_name }}</td>
                         <td>{{ booking.start_date.strftime('%Y-%m-%d') }}</td>
                         <td>{{ booking.end_date.strftime('%Y-%m-%d') }}</td>
-                        <td>{{ booking.room.price }} ₽</td>
+                        <td>{{ booking.total_amount }} ₽</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -12,7 +12,7 @@ query = '''
 conn = sqlite3.connect('instance/hotel.db')  # Путь к файлу базы данных. Если файла не существует, он будет создан
 
 # Создание курсора для выполнения SQL-запросов
-cursor = conn.cursor()\
+cursor = conn.cursor()
 
 # Пример выборки данных
 cursor.execute("SELECT * FROM Booking")

@@ -69,6 +69,7 @@ class Booking(db.Model):
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)  # Используй правильное имя таблицы
     start_date = db.Column(db.DateTime, nullable=False)  # Дата начала бронирования
     end_date = db.Column(db.DateTime, nullable=False)    # Дата конца бронирования
+    total_amount = db.Column(db.Float, nullable=False)
 
     user = db.relationship('User', backref='bookings', lazy=True)
     room = db.relationship('Room', backref='bookings', lazy=True)
@@ -157,7 +158,8 @@ def confirm_booking(room_id):
         user_id = current_user.id,
         room_id=room.id,
         start_date=start_date_obj,
-        end_date=end_date_obj
+        end_date=end_date_obj,
+        total_amount = (end_date_obj - start_date_obj).days * room.price
         )
 
     db.session.add(book)
