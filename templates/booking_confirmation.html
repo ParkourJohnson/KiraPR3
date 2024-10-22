@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="/static/booking.css">
 </head>
 <body class="confirmation-page">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <h1 class="confirmation-title">Подтверждение бронирования</h1>
-    <p class="confirmation-info">Вы забронировали номер: {{ room.name }}</p>
+    <p class="confirmation-info">Вы забронировали номер: {{ room.id }}</p>
     <p class="confirmation-info">С даты: {{ start_date }} по дату: {{ end_date }}</p>
     <p class="confirmation-total">Общая стоимость: {{ total_cost }} ₽</p>
 
