@@ -115,6 +115,30 @@ def book_room(room_id):
 
     return render_template('book_room.html', room=room)
 
+@app.route('/confirm_booking/<int:room_id>', methods=['POST'])
+@login_required
+def confirm_booking(room_id):
+    room = Room.query.get_or_404(room_id)
+
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+
+    start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+    end_date_obj = datetime.strptime(end_date, '%Y-%m-%d')
+
+    book = Booking(
+        user_id = current_user.id,
+        room_id=room.id,
+        start_date=start_date_obj,
+        end_date=end_date_obj
+        )
+
+    db.session.add(book)
+    db.session.commit()
+
+    flash(f'Бронирование номера №{room.id} успешно завершено!')
+    return redirect(url_for('index'))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

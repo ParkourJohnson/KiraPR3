@@ -21,8 +21,11 @@
     <p class="confirmation-info">С даты: {{ start_date }} по дату: {{ end_date }}</p>
     <p class="confirmation-total">Общая стоимость: {{ total_cost }} ₽</p>
 
-    <form action="{{ url_for('index') }}" class="confirmation-form">
-        <button type="submit" class="confirmation-button">Подтвердить бронирование</button>
+    <form action="{{ url_for('confirm_booking', room_id=room.id) }}" method="post">
+        <input type="hidden" name="start_date" value="{{ start_date }}">
+        <input type="hidden" name="end_date" value="{{ end_date }}">
+        <button type="submit">Подтвердить бронирование</button>
     </form>
+    
 </body>
 </html>
