@@ -255,6 +255,19 @@ def profile():
     bookings = Booking.query.filter_by(user_id=current_user.id).all()
     return render_template('profile.html', bookings=bookings, user=current_user)
 
+@app.route('/delete_booking/<int:booking_id>', methods = ['POST'])
+@login_required
+def delete_booking(booking_id):
+    if request.method == 'POST':
+        booking = Booking.query.get(booking_id)
+
+        if booking:
+            db.session.delete(booking)
+            db.session.commit()
+            flash("Бронирование успешно удалено", 'success')
+    
+        return redirect(url_for('profile'))
+
 # Маршрут для выхода
 @app.route('/logout')
 @login_required

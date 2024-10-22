@@ -45,3 +45,16 @@
     font-size: 18px;
     color: #777;
 }
+
+.delete-button {
+    padding: 5px 10px;
+    background-color: #d9534f; /* Красный цвет для удаления */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c9302c; /* Цвет при наведении */
+}
