@@ -16,7 +16,7 @@ conn = sqlite3.connect('instance/hotel.db')  # Путь к файлу базы �
 cursor = conn.cursor()
 
 # Пример выборки данных
-cursor.execute("SELECT * FROM Booking")
+cursor.execute("SELECT * FROM User")
 rows = cursor.fetchall()
 for row in rows:
     print(row)

@@ -30,25 +30,32 @@
     <section class="room-list">
         <h1>Наши номера</h1>
         <div class="rooms-container">
-            {% for room in rooms %}
+            {% for room_info in rooms %}
                 <div class="room">
-                    <h2>{{ room.name }}</h2>
-                    <p>{{ room.description }}</p>
-                    <p>Цена: {{ room.price }} ₽</p>
-                    <img src="{{ url_for('static', filename=room.image) }}" alt="{{ room.name }}">
-        
-                    {% if room.is_booked %}
-                        <button disabled>Забронирован</button>
+                    <h2>{{ room_info.room.name }}</h2>
+                    <p>{{ room_info.room.description }}</p>
+                    <p>Цена: {{ room_info.room.price }} ₽</p>
+                    <img src="{{ url_for('static', filename=room_info.room.image) }}" alt="{{ room_info.room.name }}">
+                    
+                    {% if room_info.booked_dates %}
+                        <h3>Забронированные даты:</h3>
+                        <ul>
+                            {% for start_date, end_date in room_info.booked_dates %}
+                                <li>{{ start_date }} - {{ end_date }}</li>
+                            {% endfor %}
+                        </ul>
                     {% else %}
-                        <form action="{{ url_for('book_room', room_id=room.id) }}">
-                        <button type="submit">Забронировать</button>
-                        </form>
+                        <p>Свободно</p>
                     {% endif %}
+
+                    <form action="{{ url_for('book_room', room_id=room_info.room.id) }}">
+                        <button type="submit">Забронировать</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
     </section>
-
+    
     <footer>
         <p>Контакты: +7 (999) 123-45-67 | Email: info@hotel.com</p>
         <p>&copy; 2024 Гостиница Пример. Все права защищены.</p>

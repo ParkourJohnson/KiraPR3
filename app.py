@@ -8,6 +8,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from flask_mail import Mail, Message
 import random
+from sqlalchemy import or_, and_
 
 # Создаем экземпляр Flask-приложения
 app = Flask(__name__)
@@ -81,8 +82,18 @@ def index():
 @app.route('/rooms')
 @login_required
 def rooms():
-    rooms_list = Room.query.all()
-    return render_template('rooms.html', rooms=rooms_list)
+    rooms = Room.query.all()
+    room_data = []
+    
+    for room in rooms:
+        bookings = Booking.query.filter_by(room_id=room.id).all()
+        booked_dates = [(booking.start_date, booking.end_date) for booking in bookings]
+        room_data.append({
+            'room': room,
+            'booked_dates': booked_dates
+        })
+    
+    return render_template('rooms.html', rooms=room_data)
 
 @app.route('/book_room/<int:room_id>', methods=['GET', 'POST'])
 @login_required
@@ -97,17 +108,32 @@ def book_room(room_id):
             flash("Пожалуйста, выберите даты.", "error")
             return redirect(url_for('book_room', room_id=room_id))
 
-        # Здесь можно добавить проверку на доступность номеров в выбранные даты
-
-        # Считаем стоимость
         start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
         end_date_obj = datetime.strptime(end_date, '%Y-%m-%d')
-        num_days = (end_date_obj - start_date_obj).days
 
-        if num_days <= 0:
+        if end_date_obj < start_date_obj:
             flash("Дата окончания должна быть позже даты начала.", "error")
             return redirect(url_for('book_room', room_id=room_id))
         
+        if (start_date_obj.date() < datetime.today().date()):
+            flash("Даты бронирования не могут быть раньше чем сегодня")
+            return redirect(url_for('book_room', room_id=room.id))
+        
+        # Проверка доступности номеров на выбранные даты
+        existing_bookings = Booking.query.filter(
+            Booking.room_id == room_id,
+            or_(
+                and_(Booking.start_date <= start_date_obj, Booking.end_date >= start_date_obj),
+                and_(Booking.start_date <= end_date_obj, Booking.end_date >= end_date_obj),
+                and_(Booking.start_date >= start_date_obj, Booking.end_date <= end_date_obj)
+            )
+        ).all()
+
+        if existing_bookings:
+            flash("Номер недоступен на выбранные даты.", "error")
+            return redirect(url_for('index'))
+        
+        num_days = (end_date_obj - start_date_obj).days
         total_cost = num_days * room.price
 
         # Рендерим страницу с итогами
