@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body class="profile-page">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <h1>Личный кабинет {{ user.username }}</h1>
     <h2>Ваши бронирования:</h2>
 

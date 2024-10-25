@@ -112,7 +112,6 @@ def book_room(room_id):
             flash("Даты бронирования не могут быть раньше чем сегодня")
             return redirect(url_for('book_room', room_id=room.id))
         
-        # Проверка доступности номеров на выбранные даты
         existing_bookings = Booking.query.filter(
             Booking.room_id == room_id,
             or_(
@@ -124,7 +123,7 @@ def book_room(room_id):
 
         if existing_bookings:
             flash("Номер недоступен на выбранные даты.", "error")
-            return redirect(url_for('index'))
+            return redirect(url_for('book_room', room_id = room.id))
         
         num_days = (end_date_obj - start_date_obj).days
         total_cost = num_days * room.price
@@ -205,7 +204,6 @@ def confirm_registration():
         user = User.query.filter_by(email=email).first()
         if user and user.confirmation_code == int(confirmation_code):
             flash('Регистрация подтверждена! Теперь вы можете войти.')
-            # Очистить код подтверждения после успешной проверки
             user.confirmation_code = None
             db.session.commit()
             return redirect(url_for('login'))
@@ -232,7 +230,7 @@ def login():
         login_user(user)
         flash("Авторизация прошла успешно!")
         session[f'{current_user}'] = 1
-        return redirect(url_for('rooms'))
+        return redirect(url_for('index'))
 
     return render_template('login.html')
 
@@ -265,6 +263,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-with app.app_context():
-    db.create_all()
